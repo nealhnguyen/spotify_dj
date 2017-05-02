@@ -1,6 +1,7 @@
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import spotify
+import json
 
 results = spotify.search_by_artist_name('kanye west')
 artists = results['artists']
@@ -23,6 +24,7 @@ for artist in relatedArtists['artists']:
    topTracks = spotify.get_artist_top_tracks(artistId, country='US')
 
    for tracks in topTracks['tracks']:
+      print tracks['id']
 #      print '\t' + tracks['name']
-#      features = sp.get_audio_features(tracks['items']['0']['id'])
-      features = sp.audio_features(tracks['items']['0']['id'])
+#      features = spotify.get_audio_features(tracks['id'], country='US')
+      features = sp.audio_features(tracks['id'])

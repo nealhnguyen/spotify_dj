@@ -11,7 +11,7 @@ class Playlist:
     def __init__(self, profile):
         self.profile = profile
 
-class Profile: 
+class Profile:
     'Common profile class for all playlists'
     def __init__(self, variance, feat1, val1, feat2, val2, feat3, val3):
         self.features = {}
@@ -38,7 +38,7 @@ class Profile:
         for item in details:
             print(item)
         print('\n')
-    
+
 
 results = spotify.search_by_artist_name('kanye west')
 artists = results['artists']
@@ -51,16 +51,16 @@ client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d4
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
-profile1 = Profile(7, "tempo", 3.2, "melody", 1.0, "liveliness", 2.3)
+profile1 = Profile(7, "danceability", 3.2, "acousticness", 1.0, "valence", 2.3)
 profile1.getDetailedFeatures()
 
-profile1.edit(7, "tempo", 1.2, "melody", 1.0, "liveliness", 2.3)
+profile1.edit(7, "danceability", 1.2, "acousticness", 1.0, "valence", 2.3)
 profile1.getDetailedFeatures()
 
 
 def get_track_features(trackID):
    features = sp.audio_features(trackID)
-   print(features)
+   return (features)
 
 def get_playlist_tracks(playlistName):
    results = sp.search(q=playlistName, type='playlist')
@@ -74,8 +74,24 @@ def get_playlist_tracks(playlistName):
        if not (song['track']['id'] is None):
           track_list.append(song['track']['id'].encode('utf-8'))
 
+danceability = 0
+acousticness = 0
+valence = 0
 track_list = []
-playlistName = 'Daily Lift'
+playlistName = 'Afternoon Acoustic'
 get_playlist_tracks(playlistName)
 for track in track_list:
-   get_track_features(track)
+   features = get_track_features(track)
+   for feature in features:
+     danceability += feature['danceability']
+     acousticness += feature['acousticness']
+     valence += feature['valence']
+
+avgDanceability = danceability/len(track_list)
+avgAcousticness = acousticness/len(track_list)
+avgValence = valence/len(track_list)
+
+print (len(track_list))
+print (avgDanceability)
+print (avgAcousticness)
+print (avgValence)

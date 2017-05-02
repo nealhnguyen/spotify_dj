@@ -49,7 +49,7 @@ relatedArtists = spotify.get_related_artists(artistId)
 
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-sp.trace=True
+sp.trace=False
 
 profile1 = Profile(7, "tempo", 3.2, "melody", 1.0, "liveliness", 2.3)
 profile1.getDetailedFeatures()
@@ -60,6 +60,8 @@ profile1.getDetailedFeatures()
 song_ids = []
 for artist in relatedArtists['artists']:
    #print(artist['name'])
+'''for artist in relatedArtists['artists']:
+   print artist['name']
    results = spotify.search_by_artist_name(artist['name'])
    artists = results['artists']
    artists = artists['items']
@@ -72,4 +74,26 @@ for artist in relatedArtists['artists']:
      #features = spotify.get_audio_features(tracks['id'], country='US')
      #features = sp.audio_features(tracks['id'])
      trackID = tracks['id'].encode('utf-8')
-     features = sp.audio_features(trackID)
+     features = sp.audio_features(trackID)'''
+
+def get_track_features(trackID):
+   features = sp.audio_features(trackID)
+   print features
+
+def get_playlist_tracks(playlistName):
+   results = sp.search(q=playlistName, type='playlist')
+   uri = results['playlists']['items'][0]['uri']
+   username = uri.split(':')[2]
+   playlist_id = uri.split(':')[4]
+   results = sp.user_playlist(username, playlist_id)
+   for song in results['tracks']['items']:
+       #print song['track']['id']
+       print song['track']['name']
+       if not (song['track']['id'] is None):
+          track_list.append(song['track']['id'].encode('utf-8'))
+
+track_list = []
+playlistName = 'Daily Lift'
+get_playlist_tracks(playlistName)
+for track in track_list:
+   get_track_features(track)

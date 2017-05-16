@@ -63,6 +63,7 @@ def get_track_features(trackID):
    return (features)
 
 def get_playlist_tracks(playlistName):
+   track_list = []
    results = sp.search(q=playlistName, type='playlist')
    uri = results['playlists']['items'][0]['uri']
    username = uri.split(':')[2]
@@ -70,10 +71,14 @@ def get_playlist_tracks(playlistName):
    results = sp.user_playlist(username, playlist_id)
    for song in results['tracks']['items']:
        #print song['track']['id']
-       print(song['track']['name'])
+       #print(song['track']['name'])
        if not (song['track']['id'] is None):
           track_list.append(song['track']['id'].encode('utf-8'))
+   return track_list
 
+
+#hardcode
+'''
 danceability = 0
 acousticness = 0
 valence = 0
@@ -95,3 +100,35 @@ print "The number of songs in this playlist is: " + str(len(track_list))
 print "The average dancability is: " + str(avgDanceability)
 print "The average acousticness is: " + str(avgAcousticness)
 print "The average valence is: " + str(avgValence)
+'''
+
+#make a profile given a specific playlist name and the features that we want to use
+def makeProfile(playlistName, feat1, feat2, feat3):
+
+    variance = 0
+    value1 = 0
+    value2 = 0
+    value3 = 0
+    track_list = []
+
+    track_list = get_playlist_tracks(playlistName)
+    for track in track_list:
+       features = get_track_features(track)
+       for feature in features:
+         value1 += feature[feat1]
+         value2 += feature[feat2]
+         value3 += feature[feat3]
+
+    avg1 = value1/len(track_list)
+    avg2 = value2/len(track_list)
+    avg3 = value3/len(track_list)
+
+    profile = Profile(variance, feat1, avg1, feat2, avg2, feat3, avg3)
+    return profile
+
+
+#example: making a profile
+profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
+print "Printing features: "
+print profile1.getTopFeatures()
+print profile1.getDetailedFeatures()

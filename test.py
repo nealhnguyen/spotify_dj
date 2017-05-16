@@ -78,7 +78,7 @@ danceability = 0
 acousticness = 0
 valence = 0
 track_list = []
-playlistName = 'Afternoon Acoustic'
+playlistName = raw_input("Enter playlist name: ")
 get_playlist_tracks(playlistName)
 for track in track_list:
    features = get_track_features(track)
@@ -91,7 +91,7 @@ avgDanceability = danceability/len(track_list)
 avgAcousticness = acousticness/len(track_list)
 avgValence = valence/len(track_list)
 
-print (len(track_list))
-print (avgDanceability)
-print (avgAcousticness)
-print (avgValence)
+print "The number of songs in this playlist is: " + str(len(track_list))
+print "The average dancability is: " + str(avgDanceability)
+print "The average acousticness is: " + str(avgAcousticness)
+print "The average valence is: " + str(avgValence)

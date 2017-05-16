@@ -4,11 +4,13 @@ import spotify
 import json
 
 class Song:
-    def __init__(self, profile):
+    def __init__(self, title, profile):
+        self.title = title
         self.profile = profile
 
 class Playlist:
-    def __init__(self, profile):
+    def __init__(self, title, profile):
+        self.title = title
         self.profile = profile
 
 class Profile:
@@ -51,13 +53,6 @@ client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d4
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
-profile1 = Profile(7, "danceability", 3.2, "acousticness", 1.0, "valence", 2.3)
-profile1.getDetailedFeatures()
-
-profile1.edit(7, "danceability", 1.2, "acousticness", 1.0, "valence", 2.3)
-profile1.getDetailedFeatures()
-
-
 def get_track_features(trackID):
    features = sp.audio_features(trackID)
    return (features)
@@ -95,3 +90,5 @@ print "The number of songs in this playlist is: " + str(len(track_list))
 print "The average dancability is: " + str(avgDanceability)
 print "The average acousticness is: " + str(avgAcousticness)
 print "The average valence is: " + str(avgValence)
+
+

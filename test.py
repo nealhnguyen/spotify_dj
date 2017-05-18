@@ -52,10 +52,10 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
 profile1 = Profile(7, "danceability", 3.2, "acousticness", 1.0, "valence", 2.3)
-profile1.getDetailedFeatures()
+#profile1.getDetailedFeatures()
 
-profile1.edit(7, "danceability", 1.2, "acousticness", 1.0, "valence", 2.3)
-profile1.getDetailedFeatures()
+profile1.edit(7, "danceability", 4.2, "acousticness", 6.0, "valence", 9.3)
+#profile1.getDetailedFeatures()
 
 
 def get_track_features(trackID):
@@ -128,7 +128,9 @@ def makeProfile(playlistName, feat1, feat2, feat3):
 
 
 #example: making a profile
+print "Printing initial profile 1 stats..."
+print profile1.getDetailedFeatures()
+print "Making profile 1 w/ the playlist Happy Hits!..."
 profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
-print "Printing features: "
-print profile1.getTopFeatures()
+print "Updated values: "
 print profile1.getDetailedFeatures()

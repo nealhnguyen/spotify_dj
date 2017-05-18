@@ -4,11 +4,13 @@ import spotify
 import json
 
 class Song:
-    def __init__(self, profile):
+    def __init__(self, title, profile):
+        self.title = title
         self.profile = profile
 
 class Playlist:
-    def __init__(self, profile):
+    def __init__(self, title, profile):
+        self.title = title
         self.profile = profile
 
 class Profile:
@@ -51,13 +53,6 @@ client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d4
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
-profile1 = Profile(7, "danceability", 3.2, "acousticness", 1.0, "valence", 2.3)
-#profile1.getDetailedFeatures()
-
-profile1.edit(7, "danceability", 4.2, "acousticness", 6.0, "valence", 9.3)
-#profile1.getDetailedFeatures()
-
-
 def get_track_features(trackID):
    features = sp.audio_features(trackID)
    return (features)
@@ -91,11 +86,9 @@ for track in track_list:
      danceability += feature['danceability']
      acousticness += feature['acousticness']
      valence += feature['valence']
-
 avgDanceability = danceability/len(track_list)
 avgAcousticness = acousticness/len(track_list)
 avgValence = valence/len(track_list)
-
 print "The number of songs in this playlist is: " + str(len(track_list))
 print "The average dancability is: " + str(avgDanceability)
 print "The average acousticness is: " + str(avgAcousticness)
@@ -128,9 +121,7 @@ def makeProfile(playlistName, feat1, feat2, feat3):
 
 
 #example: making a profile
-print "Printing initial profile 1 stats..."
-print profile1.getDetailedFeatures()
-print "Making profile 1 w/ the playlist Happy Hits!..."
 profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
-print "Updated values: "
+print "Printing features: "
+print profile1.getTopFeatures()
 print profile1.getDetailedFeatures()

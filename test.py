@@ -122,6 +122,8 @@ def makeProfile(playlistName, feat1, feat2, feat3):
     avg1 = value1/len(track_list)
     avg2 = value2/len(track_list)
     avg3 = value3/len(track_list)
+    
+    print("Made a profile")
 
     profile = Profile(variance, feat1, avg1, feat2, avg2, feat3, avg3)
     return profile
@@ -134,3 +136,14 @@ print "Making profile 1 w/ the playlist Happy Hits!..."
 profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
 print "Updated values: "
 print profile1.getDetailedFeatures()
+
+#comparing the profiles of the two playlists
+def compareProfile(userPlaylist, topPlaylist):
+
+#create profile for each of these top playlists
+'''playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", "electroNOW", "Hot Country", "Rock This", "Are & Be"]
+for playlist in playlists:
+    profile = makeProfile(playlist, "danceability", "acousticness", "valence")
+    print playlist
+    print profile.getDetailedFeatures()
+'''

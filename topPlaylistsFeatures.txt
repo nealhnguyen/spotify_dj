@@ -1,0 +1,40 @@
+
+Hot Rhythmic
+('acousticness', 0.16325005172413792)
+('valence', 0.4849327586206897)
+('danceability', 0.6825344827586208)
+
+Good Vibes
+('acousticness', 0.19420918666666667)
+('valence', 0.4607226666666664)
+('danceability', 0.6602933333333333)
+
+RapCaviar
+('acousticness', 0.14041598)
+('valence', 0.42816800000000016)
+('danceability', 0.7946399999999998)
+
+Chill Hits
+('acousticness', 0.20235648936170217)
+('valence', 0.43274361702127667)
+('danceability', 0.638191489361702)
+
+electroNOW
+('acousticness', 0.04907083999999999)
+('valence', 0.402906)
+('danceability', 0.6276899999999999)
+
+Hot Country
+('acousticness', 0.18770388524590162)
+('valence', 0.5399016393442624)
+('danceability', 0.5617377049180329)
+
+Rock This
+('acousticness', 0.04062622020000002)
+('valence', 0.444488)
+('danceability', 0.4792799999999998)
+
+Are & Be
+('acousticness', 0.16809056000000003)
+('valence', 0.55625)
+('danceability', 0.6999799999999999)

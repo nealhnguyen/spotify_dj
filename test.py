@@ -39,14 +39,14 @@ class Profile:
             print(item)
         print('\n')
 
-
+'''
 results = spotify.search_by_artist_name('kanye west')
 artists = results['artists']
 artists = artists['items']
 
 artistId = artists[0]['id']
 relatedArtists = spotify.get_related_artists(artistId)
-
+'''
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
@@ -128,7 +128,7 @@ def makeProfile(playlistName, feat1, feat2, feat3):
     profile = Profile(variance, feat1, avg1, feat2, avg2, feat3, avg3)
     return profile
 
-
+'''
 #example: making a profile
 print "Printing initial profile 1 stats..."
 print profile1.getDetailedFeatures()
@@ -136,14 +136,20 @@ print "Making profile 1 w/ the playlist Happy Hits!..."
 profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
 print "Updated values: "
 print profile1.getDetailedFeatures()
+'''
 
 #comparing the profiles of the two playlists
-def compareProfile(userPlaylist, topPlaylist):
+#def compareProfile(userPlaylist, topPlaylist):
 
 #create profile for each of these top playlists
-'''playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", "electroNOW", "Hot Country", "Rock This", "Are & Be"]
+playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", 
+        "electroNOW", "Hot Country", "Rock This", "Are & Be", 
+        "Today's Top Hits", "Weekly Buzz", "Have A Great Day", "Relax & Unwind", "Most Necessary", "Signed XOXO", 
+         "Pop Chillout", "Beach Vibes", "Fresh Electronic", "New Boots", 
+         "New Noise", "Totally Alternative", 
+          "Gold Edition", "Teen Party", "Get Turnt", "Ultimate Indie", "State of Jazz", "The Piano Bar"]
 for playlist in playlists:
-    profile = makeProfile(playlist, "danceability", "acousticness", "valence")
+    profile = makeProfile(playlist, "energy", "liveness", "tempo")
     print playlist
     print profile.getDetailedFeatures()
-'''
+

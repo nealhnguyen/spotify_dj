@@ -44,14 +44,7 @@ class Profile:
             print(item)
         print('\n')
 
-'''
-results = spotify.search_by_artist_name('kanye west')
-artists = results['artists']
-artists = artists['items']
 
-artistId = artists[0]['id']
-relatedArtists = spotify.get_related_artists(artistId)
-'''
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
@@ -81,11 +74,13 @@ def get_playlist_tracks(playlistName):
    return track_list
 
 #make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3):
-    variance = 0
+def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
     value1 = 0
     value2 = 0
     value3 = 0
+    value4 = 0
+    value5 = 0
+
     track_list = []
 
     track_list = get_playlist_tracks(playlistName)
@@ -95,14 +90,17 @@ def makeProfile(playlistName, feat1, feat2, feat3):
          value1 += feature[feat1]
          value2 += feature[feat2]
          value3 += feature[feat3]
+         value4 += feature[feat4]
+         value5 += feature[feat5]
 
     avg1 = value1/len(track_list)
     avg2 = value2/len(track_list)
     avg3 = value3/len(track_list)
+    avg4 = value4/len(track_list)
+    avg5 = value5/len(track_list)
     
-    print("Made a profile")
 
-    profile = Profile(variance, feat1, avg1, feat2, avg2, feat3, avg3)
+    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
     return profile
 
 #'''
@@ -160,7 +158,7 @@ def main():
 #   print profile.getDetailedFeatures()
 
    # Pop Rising
-   profile = Profile(7, "danceability", 0.6693300000000002, "acousticness", 0.13855849999999992, "valence", 0.4957969999999998)
+   profile = Profile("danceability", 0.6693300000000002, "acousticness", 0.13855849999999992, "valence", 0.4957969999999998)
 
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:

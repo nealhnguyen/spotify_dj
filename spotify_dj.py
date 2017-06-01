@@ -68,8 +68,8 @@ def main():
 #   print profile
 
    # Pop Rising
+   playList = "Pop Rising"
    profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
-   print profile
 
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:
@@ -82,13 +82,15 @@ def main():
          liveness = get_field("liveness", listValues)
          valence = get_field("valence", listValues)
 
-         tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
-         print profile
+         if name != playList:
+            tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
+            similarity = compareProfile(profile, tempProfile)
+         else:
+            similarity = 0
 
-         similarity = compareProfile(profile, tempProfile)
+         print "Name: ", name, " Similarity: ", similarity
 
          if similarity >= reqPlaylistSim:
-            print "Name: ", name, " Similarity: ", similarity
             count = 0
             tracks = sp.get_playlist_tracks(name)
             for name, trackId in tracks:
@@ -108,6 +110,7 @@ def main():
                   print name, " ", sim
 
                if count >= 5:
+                  print "\n"
                   break
 
 if __name__ == '__main__':

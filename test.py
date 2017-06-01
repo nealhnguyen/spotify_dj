@@ -6,6 +6,7 @@ import csv
 from math import*
 from decimal import Decimal
 from scipy import spatial
+<<<<<<< HEAD
 from sim import cos_sim
 from classes import Profile 
 from classes import Song
@@ -14,6 +15,12 @@ from classes import Playlist
 #results = spotify.search_by_artist_name('kanye west')
 #artists = results['artists']
 #artists = artists['items']
+=======
+from classes import Profile
+from classes import Song
+from classes import Playlist
+
+>>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
 
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
@@ -30,26 +37,31 @@ def get_track_features(trackID):
 def get_playlist_tracks(playlistName):
    track_list = []
    results = sp.search(q=playlistName, type='playlist')
-   uri = results['playlists']['items'][0]['uri']
-   username = uri.split(':')[2]
-   playlist_id = uri.split(':')[4]
-   results = sp.user_playlist(username, playlist_id)
-   for song in results['tracks']['items']:
-      #print song['track']['id']
-      #print(song['track']['name'])
-      if not (song['track']['name'] is None and song['track']['id'] is None):
-         # List of tuple (name, id)
-         track_list.append((song['track']['name'], song['track']['id'].encode('utf-8')))
+   check = results['playlists']['total']
+   if check == 0 :
+      return -1
+   else :
+      uri = results['playlists']['items'][0]['uri']
+      username = uri.split(':')[2]
+      playlist_id = uri.split(':')[4]
+      results = sp.user_playlist(username, playlist_id)
+      for song in results['tracks']['items']:
+          #print song['track']['id']
+          #print(song['track']['name'])
+         if not (song['track']['name'] is None and song['track']['id'] is None):
+             # List of tuple (name, id)
+            track_list.append((song['track']['name'], song['track']['id'].encode('utf-8')))
 
-   return track_list
+      return track_list
 
 #make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
+def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
     value1 = 0
     value2 = 0
     value3 = 0
     value4 = 0
     value5 = 0
+    value6 = 0
 
     track_list = []
 
@@ -62,19 +74,53 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
          value3 += feature[feat3]
          value4 += feature[feat4]
          value5 += feature[feat5]
+         value6 += feature[feat6]
 
     avg1 = value1/len(track_list)
     avg2 = value2/len(track_list)
     avg3 = value3/len(track_list)
     avg4 = value4/len(track_list)
     avg5 = value5/len(track_list)
+<<<<<<< HEAD
+=======
+    avg6 = value6/len(track_list)
 
-    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
+>>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
+
+    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5, feat6, avg6)
     return profile
 
+<<<<<<< HEAD
+=======
+#'''
+##example: making a profile
+#print "Printing initial profile 1 stats..."
+#print profile1.getDetailedFeatures()
+#print "Making profile 1 w/ the playlist Happy Hits!..."
+#profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
+#print "Updated values: "
+#print profile1.getDetailedFeatures()
+#'''
+#
+##comparing the profiles of the two playlists
+##def compareProfile(userPlaylist, topPlaylist):
+#
+##create profile for each of these top playlists
+#playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits",
+#        "electroNOW", "Hot Country", "Rock This", "Are & Be",
+#        "Today's Top Hits", "Weekly Buzz", "Have A Great Day", "Relax & Unwind", "Most Necessary", "Signed XOXO",
+#         "Pop Chillout", "Beach Vibes", "Fresh Electronic", "New Boots",
+#         "New Noise", "Totally Alternative",
+#          "Gold Edition", "Teen Party", "Get Turnt", "Ultimate Indie", "State of Jazz", "The Piano Bar"]
+#for playlist in playlists:
+#    profile = makeProfile(playlist, "energy", "liveness", "tempo")
+#    print playlist
+#    print profile.getDetailedFeatures()
+#
+>>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
 def squareRooted(x):
    return round(sqrt(sum([a * a for a in x])), 3)
-  
+
 def cosineSimilarity(x,y):
    numerator = sum(a * b for a, b in zip(x,y))
    denominator = squareRooted(x) * squareRooted(y)
@@ -85,7 +131,7 @@ def compareProfile(playlist1, playlist2):
    vector1 = []
    vector2 = []
    details = playlist1.features.items()
-   
+
    for item in details:
       vector1.append(item[1] * scaleFactor)
 
@@ -108,7 +154,7 @@ def main():
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:
          listValues = row.split(",")
-         
+
          name = listValues[0]
          acousticness = listValues[listValues.index("acousticness") + 1]
          danceability = listValues[listValues.index("danceability") + 1]
@@ -121,9 +167,8 @@ def main():
 
          similarity = compareProfile(profile, tempProfile)
          
-         print "Name: ", name, " Similarity: ", similarity
          if similarity >= requiredSim:
-
+            print "Name: ", name, " Similarity: ", similarity
             count = 0
             tracks = get_playlist_tracks(name)
             for name, trackId in tracks:

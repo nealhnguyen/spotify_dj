@@ -58,17 +58,17 @@ def compareProfile(playlist1, playlist2):
    return cos_sim(vector1, vector2)
 
 def get_field(field_name, list_values):
-   return list_values[list_values.index(field_name) + 1]
+   return float(list_values[list_values.index(field_name) + 1])
 
 def main():
 #   playList = raw_input('Enter a playlist: ')
 #   print playList
 #   profile = makeProfile(playList, "danceability", "acousticness", "energy", "liveness", "tempo")
-#   print profile.getDetailedFeatures()
+#   print profile
 
    # Pop Rising
-   profile = Profile("danceability", 0.6693300000000002, "acousticness", 0.13855849999999992, "energy", 0.6927300000000003, "liveness", 0.17840999999999993, "valence", 0.495797)
-   profile.getDetailedFeatures()
+   profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   print profile
 
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:
@@ -81,8 +81,8 @@ def main():
          liveness = get_field("liveness", listValues)
          valence = get_field("valence", listValues)
 
-         tempProfile = Profile("danceability", float(danceability), "acousticness", float(acousticness), "energy", float(energy), "liveness", float(liveness), "valence", float(valence))
-         tempProfile.getDetailedFeatures()
+         tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
+         print profile
 
          similarity = compareProfile(profile, tempProfile)
 
@@ -93,13 +93,13 @@ def main():
             for name, trackId in tracks:
                features = sp.get_track_features(trackId)
                for feature in features:
-                  value1 = feature["danceability"]
-                  value2 = feature["acousticness"]
-                  value3 = feature["energy"]
-                  value4 = feature["liveness"]
-                  value5 = feature["valence"]
+                  danceability = feature["danceability"]
+                  acousticness = feature["acousticness"]
+                  energy = feature["energy"]
+                  liveness = feature["liveness"]
+                  valence = feature["valence"]
 
-               tempProfile = Profile("danceability", value1, "acousticness", value2, "energy", value3, "liveness", value4, "valence", value5)
+               tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
                sim = compareProfile(profile, tempProfile)
 
                if  sim >= .990:

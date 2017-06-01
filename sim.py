@@ -45,6 +45,8 @@ def main():
    weightz = [2, 1, 1]
    print x, y, z
    print y, z
+   print"_____________________________"
+   print cos_sim([1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1])
    print "x, y, weighty", cos_sim(x, y, weighty)
    print "x, z, weighty", cos_sim(x, z, weighty)
    print "x, y, weightz", cos_sim(x, y, weightz)

@@ -1,19 +1,16 @@
-from spotipy.oauth2 import SpotifyClientCredentials
-import spotipy
-import spotify
 import json
 import csv
-from math import*
-from decimal import Decimal
-from scipy import spatial
-from sim import cos_sim
+import classes
 from classes import Profile
 from classes import Song
 from classes import Playlist
+from decimal import Decimal
+from sim import cos_sim
 
 scaleFactor = 10
 requiredSim = .995
 tracksPerList = 5
+sp = classes.Spotify()
 
 #make a profile given a specific playlist name and the features that we want to use
 def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
@@ -26,7 +23,7 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
 
     track_list = []
 
-    track_list = get_playlist_tracks(playlistName)
+    track_list = sp.get_playlist_tracks(playlistName)
     for (name, trackId) in track_list:
        features = get_track_features(trackId)
        for feature in features:
@@ -60,6 +57,9 @@ def compareProfile(playlist1, playlist2):
 
    return cos_sim(vector1, vector2)
 
+def get_field(field_name, list_values):
+   return list_values[list_values.index(field_name) + 1]
+
 def main():
 #   playList = raw_input('Enter a playlist: ')
 #   print playList
@@ -75,11 +75,11 @@ def main():
          listValues = row.split(",")
 
          name = listValues[0]
-         acousticness = listValues[listValues.index("acousticness") + 1]
-         danceability = listValues[listValues.index("danceability") + 1]
-         energy = listValues[listValues.index("energy") + 1]
-         liveness = listValues[listValues.index("liveness") + 1]
-         valence = listValues[listValues.index("valence") + 1]
+         acousticness = get_field("acousticness", listValues)
+         danceability = get_field("danceability", listValues)
+         energy = get_field("energy", listValues)
+         liveness = get_field("liveness", listValues)
+         valence = get_field("valence", listValues)
 
          tempProfile = Profile("danceability", float(danceability), "acousticness", float(acousticness), "energy", float(energy), "liveness", float(liveness), "valence", float(valence))
          tempProfile.getDetailedFeatures()
@@ -89,9 +89,9 @@ def main():
          if similarity >= requiredSim:
             print "Name: ", name, " Similarity: ", similarity
             count = 0
-            tracks = get_playlist_tracks(name)
+            tracks = sp.get_playlist_tracks(name)
             for name, trackId in tracks:
-               features = get_track_features(trackId)
+               features = sp.get_track_features(trackId)
                for feature in features:
                   value1 = feature["danceability"]
                   value2 = feature["acousticness"]

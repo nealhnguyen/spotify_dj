@@ -1,43 +1,35 @@
 from __future__ import division
-from math import*
-from decimal import Decimal
-from scipy import spatial
 from scipy.spatial.distance import cosine
 import numpy as np
-from itertools import izip
-from math import*
-  
-def jaccard_similarity(x,y):
-   intersection_cardinality = len(set.intersection(*[set(x), set(y)]))
-   union_cardinality = len(set.union(*[set(x), set(y)]))
-   return intersection_cardinality/float(union_cardinality)
-  
-#def cosine_similarity(x, y):
-#   return 1 - spatial.distance.cosine(x, y)
+import sys
 
-def square_rooted(x):
-   return round(sqrt(sum([a*a for a in x])),3)
-  
-def cosine_similarity(x,y):
-   numerator = sum(a*b for a,b in zip(x,y))
-   denominator = square_rooted(x)*square_rooted(y)
-   return round(numerator/float(denominator),3)
+def all_same_len(lists):
+   lists = filter(None, lists)
+
+   n = len(lists[0])
+   if all(len(x) == n for x in lists):
+      return True
+   return False
+
+def get_weighted_vectors(vect_x, vect_y, vect_weight):
+   total_weight = sum(vect_weight)
+   for i, weight in enumerate(vect_weight):
+      vect_x[i] = (vect_x[i] * weight) / total_weight
+      vect_y[i] = (vect_y[i] * weight) / total_weight
+
+   return vect_x, vect_y
 
 def cos_sim(vect_x, vect_y, vect_weight=None):
+   if not all_same_len([vect_x, vect_y, vect_weight]):
+      print "Lengths of all vectors not the same"
+      sys.exit()
+
    if vect_weight != None:
-      if len(vect_x) != len(vect_weight):
-         print "len(x) and len(vector) don't match"
-      if len(vect_y) != len(vect_weight):
-         print "len(y) and len(vector) don't match"
+      vect_x, vect_y = get_weighted_vectors(vect_x, vect_y, vect_weight)
 
-      total_weight = sum(vect_weight)
-      for i, weight in enumerate(vect_weight):
-         vect_x[i] = (vect_x[i] * weight) / total_weight
-         vect_y[i] = (vect_y[i] * weight) / total_weight
+   return 1 - cosine(vect_x, vect_y)
 
-   return 1 - spatial.distance.cosine(vect_x, vect_y)
-
-def main():
+def test_cos_sim():
    x = [1,1,1]
    y = [2,2,1]
    z = [1,2,2]
@@ -50,10 +42,9 @@ def main():
    print "x, z, weighty", cos_sim(x, z, weighty)
    print "x, y, weightz", cos_sim(x, y, weightz)
    print "x, z, weightz", cos_sim(x, z, weightz)
-   x = [0.6927300000000003, 0.17840999999999993, 112.34678, 0.13855849999999992, 0.6693300000000002, 0.4957969999999998]
-   y = [0.627949152542, 0.177649152542, 122.952220339, 0.158078864407, 0.696559322034, 0.0]
-   print cosine_similarity(x,y)
+   x = [0.6927300000000003, 0.17840999999999993, 0.13855849999999992, 0.6693300000000002, 0.4957969999999998]
+   y = [0.627949152542, 0.177649152542, 0.158078864407, 0.696559322034, 0.0]
    print cos_sim(x, y)
 
 if __name__ == "__main__":
-  main()
+  test_cos_sim()

@@ -22,7 +22,25 @@ def main():
 
 
 
+'''def get_playlist_tracks(playlistName):
+   track_list = []
+   results = sp.search(q=playlistName, type='playlist')
+   check = results['playlists']['total']
+   if check == 0 :
+      return -1
+   else :
+      uri = results['playlists']['items'][0]['uri']
+      username = uri.split(':')[2]
+      playlist_id = uri.split(':')[4]
+      results = sp.user_playlist(username, playlist_id)
+      for song in results['tracks']['items']:
+          #print song['track']['id']
+          #print(song['track']['name'])
+         if not (song['track']['name'] is None and song['track']['id'] is None):
+             # List of tuple (name, id)
+            track_list.append((song['track']['name'], song['track']['id'].encode('utf-8')))
 
+      return track_list'''
 
 
 

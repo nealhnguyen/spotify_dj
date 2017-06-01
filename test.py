@@ -55,7 +55,7 @@ def get_playlist_tracks(playlistName):
       return track_list
 
 #make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
+def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
     value1 = 0
     value2 = 0
     value3 = 0
@@ -74,50 +74,16 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
          value3 += feature[feat3]
          value4 += feature[feat4]
          value5 += feature[feat5]
-         value6 += feature[feat6]
 
     avg1 = value1/len(track_list)
     avg2 = value2/len(track_list)
     avg3 = value3/len(track_list)
     avg4 = value4/len(track_list)
     avg5 = value5/len(track_list)
-<<<<<<< HEAD
-=======
-    avg6 = value6/len(track_list)
 
->>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
-
-    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5, feat6, avg6)
+    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
     return profile
 
-<<<<<<< HEAD
-=======
-#'''
-##example: making a profile
-#print "Printing initial profile 1 stats..."
-#print profile1.getDetailedFeatures()
-#print "Making profile 1 w/ the playlist Happy Hits!..."
-#profile1 = makeProfile("Happy Hits!", "danceability", "acousticness", "valence")
-#print "Updated values: "
-#print profile1.getDetailedFeatures()
-#'''
-#
-##comparing the profiles of the two playlists
-##def compareProfile(userPlaylist, topPlaylist):
-#
-##create profile for each of these top playlists
-#playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits",
-#        "electroNOW", "Hot Country", "Rock This", "Are & Be",
-#        "Today's Top Hits", "Weekly Buzz", "Have A Great Day", "Relax & Unwind", "Most Necessary", "Signed XOXO",
-#         "Pop Chillout", "Beach Vibes", "Fresh Electronic", "New Boots",
-#         "New Noise", "Totally Alternative",
-#          "Gold Edition", "Teen Party", "Get Turnt", "Ultimate Indie", "State of Jazz", "The Piano Bar"]
-#for playlist in playlists:
-#    profile = makeProfile(playlist, "energy", "liveness", "tempo")
-#    print playlist
-#    print profile.getDetailedFeatures()
-#
->>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
 def squareRooted(x):
    return round(sqrt(sum([a * a for a in x])), 3)
 

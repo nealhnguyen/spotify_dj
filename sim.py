@@ -38,17 +38,21 @@ def cos_sim(vect_x, vect_y, vect_weight=None):
    return 1 - spatial.distance.cosine(vect_x, vect_y)
 
 def main():
-   x = [1,1,1]
-   y = [2,2,1]
-   z = [1,2,2]
-   weighty = [1, 1, 2]
-   weightz = [2, 1, 1]
-   print x, y, z
-   print y, z
-   print "x, y, weighty", cos_sim(x, y, weighty)
-   print "x, z, weighty", cos_sim(x, z, weighty)
-   print "x, y, weightz", cos_sim(x, y, weightz)
-   print "x, z, weightz", cos_sim(x, z, weightz)
+   x = [0.6927300000000003, 0.17840999999999993, 112.34678, 0.13855849999999992, 0.6693300000000002, 0.4957969999999998]
+   y = [0.627949152542, 0.177649152542, 122.952220339, 0.158078864407, 0.696559322034, 0.0]
+   print cosine_similarity(x,y)
+   print cos_sim(x, y)
+#   x = [1,1,1]
+#   y = [2,2,1]
+#   z = [1,2,2]
+#   weighty = [1, 1, 2]
+#   weightz = [2, 1, 1]
+#   print x, y, z
+#   print y, z
+#   print "x, y, weighty", cos_sim(x, y, weighty)
+#   print "x, z, weighty", cos_sim(x, z, weighty)
+#   print "x, y, weightz", cos_sim(x, y, weightz)
+#   print "x, z, weightz", cos_sim(x, z, weightz)
 
 if __name__ == "__main__":
   main()

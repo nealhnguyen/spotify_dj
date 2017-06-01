@@ -6,7 +6,6 @@ import csv
 from math import*
 from decimal import Decimal
 from scipy import spatial
-<<<<<<< HEAD
 from sim import cos_sim
 from classes import Profile 
 from classes import Song
@@ -15,12 +14,6 @@ from classes import Playlist
 #results = spotify.search_by_artist_name('kanye west')
 #artists = results['artists']
 #artists = artists['items']
-=======
-from classes import Profile
-from classes import Song
-from classes import Playlist
-
->>>>>>> 97bdd971fbfe23de89db6912c6d55fd6510fbb76
 
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)

@@ -14,8 +14,9 @@ sp.trace=False
 def databaseUpdate():
    playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", "electroNOW", "Hot Country", "Rock This", "Are & Be"]
    playlists += ["Pop Rising", "Have a Great Day!", "Most Necessary", "Pop Chillout", "dancePop", "New Boots", "New Noise", "The Newness", "Teen Party", "Morning Accoustic"]
+
    for playlist in playlists:
-      profile = makeProfile(playlist, "danceability", "acousticness", "valence", "energy", "liveness", "tempo")
+      profile = makeProfile(playlist, "danceability", "acousticness", "energy", "liveness", "valence")
       dataList = []
       details = profile.features.items() 
 

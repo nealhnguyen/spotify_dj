@@ -12,10 +12,12 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
 def databaseUpdate():
-   playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", "electroNOW", "Hot Country", "Rock This", "Are & Be"]
-   playlists += ["Pop Rising", "Have a Great Day!", "Most Necessary", "Pop Chillout", "dancePop", "New Boots", "New Noise", "The Newness", "Teen Party", "Morning Accoustic"]
+#   playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", "electroNOW", "Hot Country", "Rock This", "Are & Be"]
+#   playlists += ["Pop Rising", "Have a Great Day!", "Most Necessary", "Pop Chillout", "dancePop", "New Boots", "New Noise", "The Newness", "Teen Party", "Morning Accoustic"]
+   playlists = ["Get Turnt", "Signed XOXO", "Fresh & Chill", "Happy Chill Good Time Vibes", "Chill Vibes", "Beach Vibes", "Tropical House", "Dance Hits", "Country Gold", "Country Kind of Love"]
 
    for playlist in playlists:
+      print playlist
       profile = makeProfile(playlist, "danceability", "acousticness", "energy", "liveness", "valence")
       dataList = []
       details = profile.features.items() 

@@ -8,7 +8,8 @@ from decimal import Decimal
 from sim import cos_sim
 
 scaleFactor = 10
-requiredSim = .995
+reqPlaylistSim = .995
+reqTrackSim = .990
 tracksPerList = 5
 sp = classes.Spotify()
 
@@ -86,7 +87,7 @@ def main():
 
          similarity = compareProfile(profile, tempProfile)
 
-         if similarity >= requiredSim:
+         if similarity >= reqPlaylistSim:
             print "Name: ", name, " Similarity: ", similarity
             count = 0
             tracks = sp.get_playlist_tracks(name)
@@ -102,7 +103,7 @@ def main():
                tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
                sim = compareProfile(profile, tempProfile)
 
-               if  sim >= .990:
+               if  sim >= reqTrackSim:
                   count += 1
                   print name, " ", sim
 

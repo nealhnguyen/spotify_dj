@@ -10,40 +10,6 @@ from classes import Profile
 from classes import Song
 from classes import Playlist
 
-#results = spotify.search_by_artist_name('kanye west')
-#artists = results['artists']
-#artists = artists['items']
-
-class Playlist:
-    def __init__(self, profile):
-        self.profile = profile
-
-class Profile:
-    'Common profile class for all playlists'
-    def __init__(self, feat1, val1, feat2, val2, feat3, val3):
-        self.features = {}
-        self.features[feat1] = val1
-        self.features[feat2] = val2
-        self.features[feat3] = val3
-
-
-    def edit(self, feat1, val1, feat2, val2, feat3, val3):
-        self.features[feat1] = val1
-        self.features[feat2] = val2
-        self.features[feat3] = val3
-
-    def getTopFeatures(self):
-        allKeys = self.features.keys()
-        for key in allKeys:
-            print(key)
-        print('\n')
-
-    def getDetailedFeatures(self):
-        details = self.features.items()
-        for item in details:
-            print(item)
-        print('\n')
-
 
 client_credentials_manager = SpotifyClientCredentials(client_id = 'a64e7ced0f1d40c0960a9f13608c4e37', client_secret = '139896904200432696a1ffda522daa7e')
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
@@ -74,12 +40,13 @@ def get_playlist_tracks(playlistName):
    return track_list
 
 #make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
+def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
     value1 = 0
     value2 = 0
     value3 = 0
     value4 = 0
     value5 = 0
+    value6 = 0
 
     track_list = []
 
@@ -92,15 +59,17 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
          value3 += feature[feat3]
          value4 += feature[feat4]
          value5 += feature[feat5]
+         value6 += feature[feat6]
 
     avg1 = value1/len(track_list)
     avg2 = value2/len(track_list)
     avg3 = value3/len(track_list)
     avg4 = value4/len(track_list)
     avg5 = value5/len(track_list)
+    avg6 = value6/len(track_list)
     
 
-    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
+    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5, feat6, avg6)
     return profile
 
 #'''

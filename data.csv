@@ -1,16 +1,18 @@
-Pop Rising,acousticness,0.1385585,valence,0.495797,danceability,0.66933
-Hot Rhythmic,acousticness,0.158078864407,valence,0.444701694915,danceability,0.696559322034
-Good Vibes,acousticness,0.194209186667,valence,0.460722666667,danceability,0.660293333333
-RapCaviar,acousticness,0.13806538,valence,0.42974,danceability,0.78378
-Chill Hits,acousticness,0.209757368421,valence,0.445577894737,danceability,0.650652631579
-electroNOW,acousticness,0.04907084,valence,0.402906,danceability,0.62769
-Hot Country,acousticness,0.187703885246,valence,0.539901639344,danceability,0.561737704918
-Rock This,acousticness,0.0406262202,valence,0.444488,danceability,0.47928
-Are & Be,acousticness,0.16809056,valence,0.55625,danceability,0.69998
-Have a Great Day!,acousticness,0.2351973,valence,0.74185,danceability,0.64582
-Most Necessary,acousticness,0.16590012,valence,0.40513,danceability,0.7758
-Pop Chillout,acousticness,0.3524668,valence,0.318229333333,danceability,0.631346666667
-dancePop,acousticness,0.124356394,valence,0.46518,danceability,0.61502
-New Boots,acousticness,0.195633454545,valence,0.551236363636,danceability,0.558163636364
-New Noise,acousticness,0.04099561,valence,0.44666,danceability,0.50754
-The Newness,acousticness,0.30661142,valence,0.375048,danceability,0.61418
+Hot Rhythmic,energy,0.627949152542,liveness,0.177649152542,tempo,122.952220339,acousticness,0.158078864407,danceability,0.696559322034,valence,0.444701694915
+Good Vibes,energy,0.658213333333,liveness,0.144128,tempo,113.680506667,acousticness,0.189849466667,danceability,0.664266666667,valence,0.458736
+RapCaviar,energy,0.59508,liveness,0.148354,tempo,135.27188,acousticness,0.14025938,danceability,0.78374,valence,0.42312
+Chill Hits,energy,0.619917525773,liveness,0.164851546392,tempo,114.519989691,acousticness,0.208918041237,danceability,0.649969072165,valence,0.449215463918
+electroNOW,energy,0.84796,liveness,0.245129,tempo,126.59506,acousticness,0.04907084,danceability,0.62769,valence,0.402906
+Hot Country,energy,0.736032786885,liveness,0.166340983607,tempo,125.637377049,acousticness,0.187703885246,danceability,0.561737704918,valence,0.539901639344
+Rock This,energy,0.79384,liveness,0.176736,tempo,132.77998,acousticness,0.0406262202,danceability,0.47928,valence,0.444488
+Are & Be,energy,0.60636,liveness,0.186822,tempo,114.48423,acousticness,0.16809056,danceability,0.69998,valence,0.55625
+Pop Rising,energy,0.69273,liveness,0.17841,tempo,112.34678,acousticness,0.1385585,danceability,0.66933,valence,0.495797
+Have a Great Day!,energy,0.69346,liveness,0.169371,tempo,119.06444,acousticness,0.2351973,danceability,0.64582,valence,0.74185
+Most Necessary,energy,0.59218,liveness,0.164318,tempo,132.27884,acousticness,0.16590012,danceability,0.7758,valence,0.40513
+Pop Chillout,energy,0.518216216216,liveness,0.159378378378,tempo,114.875013514,acousticness,0.363659594595,danceability,0.630972972973,valence,0.315639189189
+dancePop,energy,0.78506,liveness,0.214974,tempo,119.58928,acousticness,0.124356394,danceability,0.61502,valence,0.46518
+New Boots,energy,0.718727272727,liveness,0.163981818182,tempo,125.834527273,acousticness,0.195633454545,danceability,0.558163636364,valence,0.551236363636
+New Noise,energy,0.78435,liveness,0.180012,tempo,122.93064,acousticness,0.04092612,danceability,0.50672,valence,0.44667
+The Newness,energy,0.5485,liveness,0.139536,tempo,112.59494,acousticness,0.30046402,danceability,0.6124,valence,0.373768
+Teen Party,energy,0.653036363636,liveness,0.161936363636,tempo,117.421436364,acousticness,0.142842545455,danceability,0.680363636364,valence,0.562345454545
+Morning Accoustic,energy,0.384677358491,liveness,0.143309433962,tempo,115.115301887,acousticness,0.685435849057,danceability,0.576452830189,valence,0.421113207547

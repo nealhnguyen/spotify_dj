@@ -3,38 +3,139 @@ Hot Rhythmic
 ('acousticness', 0.16325005172413792)
 ('valence', 0.4849327586206897)
 ('danceability', 0.6825344827586208)
+('energy', 0.6279491525423727)
+('liveness', 0.1776491525423729)
+('tempo', 122.95222033898301)
 
 Good Vibes
 ('acousticness', 0.19420918666666667)
 ('valence', 0.4607226666666664)
 ('danceability', 0.6602933333333333)
+('energy', 0.6567333333333334)
+('liveness', 0.14603733333333335)
+('tempo', 114.00212000000002)
 
 RapCaviar
 ('acousticness', 0.14041598)
 ('valence', 0.42816800000000016)
 ('danceability', 0.7946399999999998)
+('energy', 0.5950800000000002)
+('liveness', 0.14835400000000004)
+('tempo', 135.27188)
 
 Chill Hits
 ('acousticness', 0.20235648936170217)
 ('valence', 0.43274361702127667)
 ('danceability', 0.638191489361702)
+('energy', 0.6199175257731958)
+('liveness', 0.16485154639175253)
+('tempo', 114.51998969072166)
 
 electroNOW
 ('acousticness', 0.04907083999999999)
 ('valence', 0.402906)
 ('danceability', 0.6276899999999999)
+('energy', 0.84796)
+('liveness', 0.24512899999999996)
+('tempo', 126.59506000000002)
 
 Hot Country
 ('acousticness', 0.18770388524590162)
 ('valence', 0.5399016393442624)
 ('danceability', 0.5617377049180329)
+('energy', 0.7360327868852461)
+('liveness', 0.16634098360655739)
+('tempo', 125.63737704918033)
 
 Rock This
 ('acousticness', 0.04062622020000002)
 ('valence', 0.444488)
 ('danceability', 0.4792799999999998)
+('energy', 0.7938400000000001)
+('liveness', 0.17673599999999998)
+('tempo', 132.77997999999997)
 
 Are & Be
 ('acousticness', 0.16809056000000003)
 ('valence', 0.55625)
 ('danceability', 0.6999799999999999)
+('energy', 0.60636)
+('liveness', 0.186822)
+('tempo', 114.48422999999998)
+
+
+Have A Great Day
+('acousticness', 0.2351973)
+('valence', 0.7418499999999999)
+('danceability', 0.64582)
+('energy', 0.6934600000000001)
+('liveness', 0.16937100000000005)
+('tempo', 119.06443999999998)
+
+
+Relax & Unwind
+('acousticness', 0.5934325301204819)
+('valence', 0.2962096385542169)
+('danceability', 0.5119638554216864)
+('energy', 0.42736626506024084)
+('liveness', 0.1768349397590362)
+('tempo', 120.71630120481929)
+
+Most Necessary
+('acousticness', 0.16590011999999996)
+('valence', 0.40513000000000005)
+('danceability', 0.7757999999999999)
+('energy', 0.5921800000000002)
+('liveness', 0.16431800000000008)
+('tempo', 132.27883999999995)
+
+
+Signed XOXO
+('acousticness', 0.20133038)
+('valence', 0.4271680000000002)
+('danceability', 0.7419199999999999)
+('energy', 0.5643200000000002)
+('liveness', 0.16134400000000004)
+('tempo', 118.53698)
+
+
+Pop Chillout
+('acousticness', 0.3524668)
+('valence', 0.31822933333333336)
+('danceability', 0.6313466666666666)
+('energy', 0.5209866666666666)
+('liveness', 0.15693200000000007)
+('tempo', 112.93946666666666)
+
+Beach Vibes
+('acousticness', 0.20848260377358493)
+('valence', 0.6515283018867923)
+('danceability', 0.7255849056603777)
+('energy', 0.6148679245283017)
+('liveness', 0.16253207547169812)
+('tempo', 115.44352830188674)
+
+Fresh Electronic
+('acousticness', 0.06909133333333334)
+('valence', 0.3874266666666667)
+('danceability', 0.6383000000000002)
+('energy', 0.7587166666666669)
+('liveness', 0.1902616666666667)
+('tempo', 124.60125)
+
+New Boots
+('acousticness', 0.1956334545454546)
+('valence', 0.5512363636363635)
+('danceability', 0.5581636363636364)
+('energy', 0.7187272727272728)
+('liveness', 0.16398181818181815)
+('tempo', 125.83452727272723)
+
+New Noise
+('acousticness', 0.040995609999999995)
+('valence', 0.44666000000000006)
+('danceability', 0.50754)
+('energy', 0.5692800000000001)
+('liveness', 0.20480799999999996)
+('tempo', 110.08036000000001)
+

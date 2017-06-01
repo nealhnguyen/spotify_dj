@@ -6,7 +6,7 @@ import csv
 from math import*
 from decimal import Decimal
 from scipy import spatial
-from classes import Profile 
+from classes import Profile
 from classes import Song
 from classes import Playlist
 
@@ -26,18 +26,22 @@ def get_track_features(trackID):
 def get_playlist_tracks(playlistName):
    track_list = []
    results = sp.search(q=playlistName, type='playlist')
-   uri = results['playlists']['items'][0]['uri']
-   username = uri.split(':')[2]
-   playlist_id = uri.split(':')[4]
-   results = sp.user_playlist(username, playlist_id)
-   for song in results['tracks']['items']:
-      #print song['track']['id']
-      #print(song['track']['name'])
-      if not (song['track']['name'] is None and song['track']['id'] is None):
-         # List of tuple (name, id)
-         track_list.append((song['track']['name'], song['track']['id'].encode('utf-8')))
+   check = results['playlists']['total']
+   if check == 0 :
+      return -1
+   else :
+      uri = results['playlists']['items'][0]['uri']
+      username = uri.split(':')[2]
+      playlist_id = uri.split(':')[4]
+      results = sp.user_playlist(username, playlist_id)
+      for song in results['tracks']['items']:
+          #print song['track']['id']
+          #print(song['track']['name'])
+         if not (song['track']['name'] is None and song['track']['id'] is None):
+             # List of tuple (name, id)
+            track_list.append((song['track']['name'], song['track']['id'].encode('utf-8')))
 
-   return track_list
+      return track_list
 
 #make a profile given a specific playlist name and the features that we want to use
 def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
@@ -67,7 +71,7 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
     avg4 = value4/len(track_list)
     avg5 = value5/len(track_list)
     avg6 = value6/len(track_list)
-    
+
 
     profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5, feat6, avg6)
     return profile
@@ -86,11 +90,11 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
 ##def compareProfile(userPlaylist, topPlaylist):
 #
 ##create profile for each of these top playlists
-#playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits", 
-#        "electroNOW", "Hot Country", "Rock This", "Are & Be", 
-#        "Today's Top Hits", "Weekly Buzz", "Have A Great Day", "Relax & Unwind", "Most Necessary", "Signed XOXO", 
-#         "Pop Chillout", "Beach Vibes", "Fresh Electronic", "New Boots", 
-#         "New Noise", "Totally Alternative", 
+#playlists = ["Hot Rhythmic", "Good Vibes", "RapCaviar", "Chill Hits",
+#        "electroNOW", "Hot Country", "Rock This", "Are & Be",
+#        "Today's Top Hits", "Weekly Buzz", "Have A Great Day", "Relax & Unwind", "Most Necessary", "Signed XOXO",
+#         "Pop Chillout", "Beach Vibes", "Fresh Electronic", "New Boots",
+#         "New Noise", "Totally Alternative",
 #          "Gold Edition", "Teen Party", "Get Turnt", "Ultimate Indie", "State of Jazz", "The Piano Bar"]
 #for playlist in playlists:
 #    profile = makeProfile(playlist, "energy", "liveness", "tempo")
@@ -99,7 +103,7 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5, feat6):
 #
 def squareRooted(x):
    return round(sqrt(sum([a * a for a in x])), 3)
-  
+
 def cosineSimilarity(x,y):
    numerator = sum(a * b for a, b in zip(x,y))
    denominator = squareRooted(x) * squareRooted(y)
@@ -110,7 +114,7 @@ def compareProfile(playlist1, playlist2):
    vector1 = []
    vector2 = []
    details = playlist1.features.items()
-   
+
    for item in details:
       vector1.append(item[1] * scaleFactor)
 
@@ -132,7 +136,7 @@ def main():
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:
          listValues = row.split(",")
-         
+
          name = listValues[0]
          acousticness = listValues[listValues.index("acousticness") + 1]
          danceability = listValues[listValues.index("danceability") + 1][:-2]
@@ -140,7 +144,7 @@ def main():
          tempProfile = Profile("danceability", float(danceability), "acousticness", float(acousticness), "valence", float(valence))
 
          similarity = compareProfile(profile, tempProfile)
-         
+
          if similarity >= requiredSim:
             print "Name: ", name, " Similarity: ", similarity
 
@@ -157,7 +161,7 @@ def main():
                sim = compareProfile(profile, tempProfile)
                if  sim >= .990:
                   count += 1
-                  print name, " ", compareProfile(profile, tempProfile) 
+                  print name, " ", compareProfile(profile, tempProfile)
 
                if count >= 5:
                   break

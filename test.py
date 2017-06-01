@@ -20,8 +20,9 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace=False
 
 scaleFactor = 10
-requiredSim = .995
+reqPlaylistSim = .995
 tracksPerList = 5
+reqTrackSim = .990
 
 def get_track_features(trackID):
    features = sp.audio_features(trackID)
@@ -126,7 +127,7 @@ def main():
 
          similarity = compareProfile(profile, tempProfile)
          
-         if similarity >= requiredSim:
+         if similarity >= reqPlaylistSim:
             print "Name: ", name, " Similarity: ", similarity
             count = 0
             tracks = get_playlist_tracks(name)
@@ -142,7 +143,7 @@ def main():
                tempProfile = Profile("danceability", value1, "acousticness", value2, "energy", value3, "liveness", value4, "valence", value5)
                sim = compareProfile(profile, tempProfile)
 
-               if  sim >= .990:
+               if  sim >= reqTrackSim:
                   count += 1
                   print name, " ", sim 
 

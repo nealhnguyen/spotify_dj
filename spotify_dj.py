@@ -1,20 +1,16 @@
-from spotipy.oauth2 import SpotifyClientCredentials
-import spotipy
-import spotify
 import json
 import csv
-from math import*
-from decimal import Decimal
-from scipy import spatial
-from sim import cos_sim
+import classes
 from classes import Profile
 from classes import Song
 from classes import Playlist
+from decimal import Decimal
+from sim import cos_sim
 
 scaleFactor = 10
-reqPlaylistSim = .995
+requiredSim = .995
 tracksPerList = 5
-reqTrackSim = .990
+sp = classes.Spotify()
 
 #make a profile given a specific playlist name and the features that we want to use
 def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
@@ -27,7 +23,7 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
 
     track_list = []
 
-    track_list = get_playlist_tracks(playlistName)
+    track_list = sp.get_playlist_tracks(playlistName)
     for (name, trackId) in track_list:
        features = get_track_features(trackId)
        for feature in features:
@@ -61,49 +57,52 @@ def compareProfile(playlist1, playlist2):
 
    return cos_sim(vector1, vector2)
 
+def get_field(field_name, list_values):
+   return float(list_values[list_values.index(field_name) + 1])
+
 def main():
 #   playList = raw_input('Enter a playlist: ')
 #   print playList
 #   profile = makeProfile(playList, "danceability", "acousticness", "energy", "liveness", "tempo")
-#   print profile.getDetailedFeatures()
+#   print profile
 
    # Pop Rising
-   profile = Profile("danceability", 0.6693300000000002, "acousticness", 0.13855849999999992, "energy", 0.6927300000000003, "liveness", 0.17840999999999993, "valence", 0.495797)
-   profile.getDetailedFeatures()
+   profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   print profile
 
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:
          listValues = row.split(",")
 
          name = listValues[0]
-         acousticness = listValues[listValues.index("acousticness") + 1]
-         danceability = listValues[listValues.index("danceability") + 1]
-         energy = listValues[listValues.index("energy") + 1]
-         liveness = listValues[listValues.index("liveness") + 1]
-         valence = listValues[listValues.index("valence") + 1]
+         acousticness = get_field("acousticness", listValues)
+         danceability = get_field("danceability", listValues)
+         energy = get_field("energy", listValues)
+         liveness = get_field("liveness", listValues)
+         valence = get_field("valence", listValues)
 
-         tempProfile = Profile("danceability", float(danceability), "acousticness", float(acousticness), "energy", float(energy), "liveness", float(liveness), "valence", float(valence))
-         tempProfile.getDetailedFeatures()
+         tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
+         print profile
 
          similarity = compareProfile(profile, tempProfile)
-         
-         if similarity >= reqPlaylistSim:
+
+         if similarity >= requiredSim:
             print "Name: ", name, " Similarity: ", similarity
             count = 0
-            tracks = get_playlist_tracks(name)
+            tracks = sp.get_playlist_tracks(name)
             for name, trackId in tracks:
-               features = get_track_features(trackId)
+               features = sp.get_track_features(trackId)
                for feature in features:
-                  value1 = feature["danceability"]
-                  value2 = feature["acousticness"]
-                  value3 = feature["energy"]
-                  value4 = feature["liveness"]
-                  value5 = feature["valence"]
+                  danceability = feature["danceability"]
+                  acousticness = feature["acousticness"]
+                  energy = feature["energy"]
+                  liveness = feature["liveness"]
+                  valence = feature["valence"]
 
-               tempProfile = Profile("danceability", value1, "acousticness", value2, "energy", value3, "liveness", value4, "valence", value5)
+               tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
                sim = compareProfile(profile, tempProfile)
 
-               if  sim >= reqTrackSim:
+               if  sim >= .990:
                   count += 1
                   print name, " ", sim
 

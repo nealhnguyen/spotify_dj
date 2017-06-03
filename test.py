@@ -1,6 +1,5 @@
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-import spotify
 import json
 import csv
 from math import*
@@ -10,10 +9,12 @@ from sim import cos_sim
 from classes import Profile
 from classes import Song
 from classes import Playlist
+import classes
 
 scaleFactor = 10
 requiredSim = .995
 tracksPerList = 5
+sp = classes.Spotify()
 
 #make a profile given a specific playlist name and the features that we want to use
 def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
@@ -26,10 +27,14 @@ def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
 
     track_list = []
 
-    track_list = get_playlist_tracks(playlistName)
+    track_list = sp.get_playlist_tracks(playlistName)
     for (name, trackId) in track_list:
-       features = get_track_features(trackId)
+       features = sp.get_track_features(trackId)
+       print "------------------------------"
+       print features
        for feature in features:
+         print ".............................."
+         print feature
          value1 += feature[feat1]
          value2 += feature[feat2]
          value3 += feature[feat3]
@@ -61,10 +66,11 @@ def compareProfile(playlist1, playlist2):
    return cos_sim(vector1, vector2)
 
 def main():
-#   playList = raw_input('Enter a playlist: ')
-#   print playList
-#   profile = makeProfile(playList, "danceability", "acousticness", "energy", "liveness", "tempo")
-#   print profile.getDetailedFeatures()
+   playList = raw_input('Enter a playlist: ')
+   print playList
+   profile = makeProfile(playList, "danceability", "acousticness", "energy", "liveness", "tempo")
+   print profile.getDetailedFeatures()
+   sys.exit()
 
    # Pop Rising
    profile = Profile("danceability", 0.6693300000000002, "acousticness", 0.13855849999999992, "energy", 0.6927300000000003, "liveness", 0.17840999999999993, "valence", 0.495797)

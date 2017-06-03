@@ -5,6 +5,7 @@ from classes import Profile
 from classes import Song
 from classes import Playlist
 from decimal import Decimal
+from itertools import izip
 from sim import cos_sim
 
 scaleFactor = 10
@@ -12,35 +13,6 @@ requiredSim = .995
 tracksPerList = 5
 sp = classes.Spotify()
 
-#make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
-    value1 = 0
-    value2 = 0
-    value3 = 0
-    value4 = 0
-    value5 = 0
-    value6 = 0
-
-    track_list = []
-
-    track_list = sp.get_playlist_tracks(playlistName)
-    for (name, trackId) in track_list:
-       features = get_track_features(trackId)
-       for feature in features:
-         value1 += feature[feat1]
-         value2 += feature[feat2]
-         value3 += feature[feat3]
-         value4 += feature[feat4]
-         value5 += feature[feat5]
-
-    avg1 = value1/len(track_list)
-    avg2 = value2/len(track_list)
-    avg3 = value3/len(track_list)
-    avg4 = value4/len(track_list)
-    avg5 = value5/len(track_list)
-
-    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
-    return profile
 
 #comparing the profiles of the two playlists
 def compareProfile(playlist1, playlist2):
@@ -67,7 +39,7 @@ def main():
 #   print profile
 
    # Pop Rising
-   profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   user_playlist = Playlist(name, sp, {"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
    print profile
 
    with open('data.csv', 'rb') as csvFile:
@@ -82,32 +54,28 @@ def main():
          valence = get_field("valence", listValues)
 
          tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
-         print profile
 
          similarity = compareProfile(profile, tempProfile)
 
          if similarity >= requiredSim:
             print "Name: ", name, " Similarity: ", similarity
             count = 0
-            tracks = sp.get_playlist_tracks(name)
-            for name, trackId in tracks:
-               features = sp.get_track_features(trackId)
-               for feature in features:
-                  danceability = feature["danceability"]
-                  acousticness = feature["acousticness"]
-                  energy = feature["energy"]
-                  liveness = feature["liveness"]
-                  valence = feature["valence"]
 
-               tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
+            username, playlist_id = sp.search_playlist(name)
+            track_ids, track_names = sp.get_playlist_tracks(username, playlist_id)
+            track_features = sp.get_features(track_ids)
+
+            for track_name, track_feature in izip(track_names, track_features):
+               tempProfile = Profile(track_feature)
                sim = compareProfile(profile, tempProfile)
 
                if  sim >= .990:
                   count += 1
-                  print name, " ", sim
+                  print track_name, " ", sim
 
                if count >= 5:
                   break
+      sys.exit()
 
 if __name__ == '__main__':
    main()

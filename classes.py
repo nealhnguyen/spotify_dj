@@ -1,14 +1,18 @@
 import requests
 import json
 import spotipy
+from sim import cos_sim
 from spotipy.oauth2 import SpotifyClientCredentials
 
-def avg_dicionaries(dict_list):
-   for key_dict in dict_list:
-      for key, val in key_dict.iteritems():
+def avg_dicts(dict_list, features_of_intrest):
+   avg = dict.fromkeys(features_of_intrest, 0)
+
+   for temp_dict in dict_list:
+      curr_dict = get_sub_dict(features_of_intrest, temp_dict)
+      for key, val in curr_dict.items():
          avg[key] += float(val)
 
-   return {key: value / len(data) for key, value in avg.iteritems()}
+   return {key: value / len(dict_list) for key, value in avg.iteritems()}
 
 def get_sub_dict(keys, the_dict):
    sub_dict = {}
@@ -18,57 +22,74 @@ def get_sub_dict(keys, the_dict):
 
    return sub_dict
 
-class Profile:
+class Profile(object):
    'Common profile class for all playlists'
    def __init__(self, features={}):
       self.features = features
 
    def __repr__(self):
-      profile_repr = ""
-
-      features = self.features
-      for feature in features:
-         profile_repr += feature + " " + str(features[feature]) + "\n"
-
-      return profile_repr
+      return json.dumps(self.features, indent=3)[2:-2]
 
    def edit_feature(self, feature, val):
       self.features[feature] = val
 
-   def get_features(self):
+   def print_features(self):
       allKeys = self.features.keys()
       for key in allKeys:
          print(key)
       print('\n')
 
+   def get_feature_keys(self):
+      return sorted(self.features.keys())
+
+   #comparing the profiles of the two playlists
+   def compare(profile1, profile2, weight, ):
+      if not isinstance(profile1, Profile) or not isinstance(profile2, Profile):
+         print "ERROR: profile1 and 2 are not both a <Profile> type"
+         sys.exit()
+
+      vector1 = []
+      vector2 = []
+
+      for key in profile1.get_feature_keys():
+         # sometimes a feature doesn't have a value, ignore this song
+         if profile2.features[key] is None:
+            return 0
+
+         vector1.append(profile1.features[key])
+         vector2.append(profile2.features[key])
+
+      return cos_sim(vector1, vector2, weight)
+
 class Song(Profile):
-   def __init(self, name, features={}):
-      self.name = name
-      super.__init__(Song,features)
+   def __init(self, features={}):
+      Profile.__init__(self, features)
+
+   def __repr__(self):
+      return self.name + "\n" + Profile.__repr__(self)
 
 class Playlist(Profile):
-   def __init__(self, name, sp, feature_keys=[]):
+   def __init__(self, name, sp, features={}):
+      Profile.__init__(self, features)
       self.name = name
       self.sp = sp
 
-      features = make_features(name, feature_keys)
-      super.__init__(Playlist, features)
+   def __repr__(self):
+      return self.name + "\n" + Profile.__repr__(self)
 
    #make the features for a playlist profile by averaging all the track features
-   def make_features(self, name, feature_keys):
-      if not feature_keys:
-         return []
+   def pull_features(self):
+      if not self.features:
+         return
 
-      sp = self.sp
+      feature_keys = self.features.keys()
 
-      username, playlist_id = sp.search_playlist(name)
-      tracks = sp.get_playlist_tracks(username, playlist_id)
+      username, playlist_id = self.sp.search_playlist(self.name)
+      track_ids, track_names = self.sp.get_playlist_tracks(username, playlist_id)
 
-      tracks_features = sp.get_track_features(track)
+      tracks_features = self.sp.get_features(track_ids)
 
-      features = avg_dicionaries(tracks_features)
-
-      return get_sub_dict(feature_keys, features)
+      self.features = avg_dicts(tracks_features, self.get_feature_keys())
 
 class Spotify:
    GET_ARTIST_ENDPOINT = 'https://api.spotify.com/v1/artists/{id}'

@@ -1,17 +1,17 @@
 import test
 import classes
 
-def main():
+def UserInput():
 
    sp = classes.Spotify()
 
    playlist = raw_input('Enter a playlist: ')
 
-   check = sp.get_playlist_tracks(playlist) #checking if the playlist exists
+   check = sp.search_playlist(playlist) #checking if the playlist exists
 
    while check == -1:
        playList = raw_input('Enter a valid playlist: ')
-       check = sp.get_playlist_tracks(playlist)
+       check = sp.search_playlist(playlist)
 
    print("Enter the feature's corresponding numbers to value (on a scale of 1-9) separated by commas: ")
    print("For example, Dancability with the value 8 would be 5:8")
@@ -31,4 +31,4 @@ def main():
    #print profile.getDetailedFeatures()
 
 if __name__ == '__main__':
-   main()
+   UserInput()

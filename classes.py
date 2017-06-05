@@ -24,8 +24,9 @@ def get_sub_dict(keys, the_dict):
 
 class Profile(object):
    'Common profile class for all playlists'
-   def __init__(self, features={}):
+   def __init__(self, features={}, uri=0):
       self.features = features
+      self.uri=0
 
    def __repr__(self):
       return json.dumps(self.features, indent=3)[2:-2]
@@ -88,6 +89,8 @@ class Playlist(Profile):
 
       username, playlist_id = self.sp.search_playlist(self.name)
       track_ids, track_names = self.sp.get_playlist_tracks(username, playlist_id)
+
+      self.uri = playlist_id
 
       tracks_features = self.sp.get_features(track_ids)
 

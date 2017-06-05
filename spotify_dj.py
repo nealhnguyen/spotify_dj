@@ -118,6 +118,12 @@ def spotify_dj():#playlist_name, top_features, weight):
 #   print user
 
 '''
+   top_features = ["danceability", "acousticness", "energy", "liveness", "valence"]
+   weight = {"danceability":5, "acousticness":6, "energy":3, "liveness":7, "valence":7}
+   playlist_name = "Rap Caviar"
+   user = build_playlist(playlist_name, top_features)
+   print user
+
    playlists = build_sugg_playlists('data.csv', top_features)
    
    for playlist in playlists:

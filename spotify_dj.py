@@ -68,8 +68,10 @@ def main():
 #   print profile
 
    # Pop Rising
-   playList = "Pop Rising"
-   profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   #playList = "Pop Rising"
+   #profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   playList = "RapCaviar"
+   profile = Profile({"danceability": 0.783, "acousticness": 0.14025938, "energy": 0.59508, "liveness": 0.148354, "valence": 0.42312})
 
    with open('data.csv', 'rb') as csvFile:
       for row in csvFile:

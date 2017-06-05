@@ -20,7 +20,7 @@ def databaseUpdate():
       print playlist
       profile = makeProfile(playlist, "danceability", "acousticness", "energy", "liveness", "valence")
       dataList = []
-      details = profile.features.items() 
+      details = profile.features.items()
 
       dataList.append(playlist)
       for item in details:
@@ -30,7 +30,7 @@ def databaseUpdate():
       with open(dataFile, 'ab') as myfile:
          wr = csv.writer(myfile, delimiter=',')
          wr.writerow(dataList)
-      
+
       print dataList
 
 def main():

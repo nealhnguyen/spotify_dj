@@ -1,71 +1,34 @@
-import json
 import csv
 import classes
-from classes import Profile
-from classes import Song
-from classes import Playlist
+from classes import *
 from decimal import Decimal
-from sim import cos_sim
+from itertools import izip
 
 scaleFactor = 10
-reqPlaylistSim = .995
-reqTrackSim = .990
+requiredSim = .990
+sugg_limit = 5
 tracksPerList = 5
 sp = classes.Spotify()
-
-#make a profile given a specific playlist name and the features that we want to use
-def makeProfile(playlistName, feat1, feat2, feat3, feat4, feat5):
-    value1 = 0
-    value2 = 0
-    value3 = 0
-    value4 = 0
-    value5 = 0
-    value6 = 0
-
-    track_list = []
-
-    track_list = sp.get_playlist_tracks(playlistName)
-    for (name, trackId) in track_list:
-       features = get_track_features(trackId)
-       for feature in features:
-         value1 += feature[feat1]
-         value2 += feature[feat2]
-         value3 += feature[feat3]
-         value4 += feature[feat4]
-         value5 += feature[feat5]
-
-    avg1 = value1/len(track_list)
-    avg2 = value2/len(track_list)
-    avg3 = value3/len(track_list)
-    avg4 = value4/len(track_list)
-    avg5 = value5/len(track_list)
-
-    profile = Profile(feat1, avg1, feat2, avg2, feat3, avg3, feat4, avg4, feat5, avg5)
-    return profile
-
-#comparing the profiles of the two playlists
-def compareProfile(playlist1, playlist2):
-   vector1 = []
-   vector2 = []
-   details = playlist1.features.items()
-
-   for item in details:
-      vector1.append(item[1] * scaleFactor)
-
-   details = playlist2.features.items()
-   for item in details:
-      vector2.append(item[1] * scaleFactor)
-
-   return cos_sim(vector1, vector2)
 
 def get_field(field_name, list_values):
    return float(list_values[list_values.index(field_name) + 1])
 
-def main():
-#   playList = raw_input('Enter a playlist: ')
-#   print playList
-#   profile = makeProfile(playList, "danceability", "acousticness", "energy", "liveness", "tempo")
-#   print profile
+def extract_feat_dict(csv_entry, features):
+   list_values = csv_entry.split(",")
+   feature_dict = {}
+
+   name = list_values[0]
+
+   for feature in features:
+      feature_dict[feature] = get_field(feature, list_values)
+
+   return name, feature_dict
+
+def build_playlist(playlist_name, top_features):
+   #user = Playlist("Pop Rising", sp, {"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
+   #playlist_name = raw_input('Enter a playlist: ')
+   user = Playlist(playlist_name, sp, dict.fromkeys(top_features))
+   user.pull_features()
 
    # Pop Rising
    #playList = "Pop Rising"
@@ -73,47 +36,57 @@ def main():
    playList = "RapCaviar"
    profile = Profile({"danceability": 0.783, "acousticness": 0.14025938, "energy": 0.59508, "liveness": 0.148354, "valence": 0.42312})
 
-   with open('data.csv', 'rb') as csvFile:
+   return user
+
+def build_sugg_playlists(database_file, top_features):
+   playlists = []
+
+   with open(database_file, 'rb') as csvFile:
       for row in csvFile:
-         listValues = row.split(",")
+         name, features = extract_feat_dict(row, top_features)
+         curr_playlist = Playlist(name, sp, features)
 
-         name = listValues[0]
-         acousticness = get_field("acousticness", listValues)
-         danceability = get_field("danceability", listValues)
-         energy = get_field("energy", listValues)
-         liveness = get_field("liveness", listValues)
-         valence = get_field("valence", listValues)
+         playlists.append(curr_playlist)
 
-         if name != playList:
-            tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
-            similarity = compareProfile(profile, tempProfile)
-         else:
-            similarity = 0
+      return playlists
 
-         print "Name: ", name, " Similarity: ", similarity
+def suggest_songs(user, playlist, required_sim, sugg_limit, weight):
+   songs_matched = 0
 
-         if similarity >= reqPlaylistSim:
-            count = 0
-            tracks = sp.get_playlist_tracks(name)
-            for name, trackId in tracks:
-               features = sp.get_track_features(trackId)
-               for feature in features:
-                  danceability = feature["danceability"]
-                  acousticness = feature["acousticness"]
-                  energy = feature["energy"]
-                  liveness = feature["liveness"]
-                  valence = feature["valence"]
+   playlist_user, playlist_id = sp.search_playlist(playlist.name)
+   track_ids, track_names = sp.get_playlist_tracks(playlist_user, playlist_id)
+   track_features = sp.get_features(track_ids)
 
-               tempProfile = Profile({"danceability": danceability, "acousticness": acousticness, "energy": energy, "liveness": liveness, "valence": valence})
-               sim = compareProfile(profile, tempProfile)
+   for track_name, track_feature in izip(track_names, track_features):
+      track_sub_features = get_sub_dict(user.get_feature_keys(), track_feature)
+      curr_track = Song(track_sub_features)
 
-               if  sim >= reqTrackSim:
-                  count += 1
-                  print name, " ", sim
+      sim = Profile.compare(user, curr_track, weight)
 
-               if count >= 5:
-                  print "\n"
-                  break
+      if  sim >= required_sim:
+         songs_matched += 1
+         print "   ", track_name, " ", sim
+
+      if songs_matched >= sugg_limit:
+         break
+
+def spotify_dj():#playlist_name, top_features, weight):
+   # Features user are interested in
+   top_features = ["danceability", "acousticness", "energy", "liveness", "valence"]
+   weight = [5, 6, 3, 7, 7]
+   playlist_name = "Rap Caviar"
+   user = build_playlist(playlist_name, top_features)
+   print user
+
+   playlists = build_sugg_playlists('data.csv', top_features)
+
+   for playlist in playlists:
+      similarity = Profile.compare(user, playlist, weight)
+
+      if similarity > requiredSim:
+         print playlist.name, similarity
+
+         suggest_songs(user, playlist, requiredSim, sugg_limit, weight)
 
 if __name__ == '__main__':
-   main()
+   spotify_dj()

@@ -73,7 +73,7 @@ def suggest_songs(user, playlist, required_sim, sugg_limit, weight):
 def spotify_dj():#playlist_name, top_features, weight):
    # Features user are interested in
    top_features = ["danceability", "acousticness", "energy", "liveness", "valence"]
-   weight = [5, 6, 3, 7, 7]
+   weight = {"danceability":5, "acousticness":6, "energy":3, "liveness":7, "valence":7}
    playlist_name = "Rap Caviar"
    user = build_playlist(playlist_name, top_features)
    print user

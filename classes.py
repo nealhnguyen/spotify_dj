@@ -43,13 +43,14 @@ class Profile(object):
       return sorted(self.features.keys())
 
    #comparing the profiles of the two playlists
-   def compare(profile1, profile2, weight, ):
+   def compare(profile1, profile2, weight):
       if not isinstance(profile1, Profile) or not isinstance(profile2, Profile):
          print "ERROR: profile1 and 2 are not both a <Profile> type"
          sys.exit()
 
       vector1 = []
       vector2 = []
+      weight_list = []
 
       for key in profile1.get_feature_keys():
          # sometimes a feature doesn't have a value, ignore this song
@@ -58,8 +59,9 @@ class Profile(object):
 
          vector1.append(profile1.features[key])
          vector2.append(profile2.features[key])
+         weight_list.append(weight[key])
 
-      return cos_sim(vector1, vector2, weight)
+      return cos_sim(vector1, vector2, weight_list)
 
 class Song(Profile):
    def __init(self, features={}):

@@ -11,7 +11,7 @@ sugg_limit = 5
 tracksPerList = 5
 sp = classes.Spotify()
 
-numToFeature = {'1':"energy", '2':"liveness", '3':"tempo", '4':"acousticness", '5':"dancability", '6':"valence"}
+numToFeature = {'1':"energy", '2':"liveness", '3':"acousticness", '4':"danceability", '5':"valence"}
 
 def get_field(field_name, list_values):
    return float(list_values[list_values.index(field_name) + 1])
@@ -36,8 +36,8 @@ def build_playlist(playlist_name, top_features):
    # Pop Rising
    #playList = "Pop Rising"
    #profile = Profile({"danceability": 0.6693300000000002, "acousticness": 0.13855849999999992, "energy": 0.6927300000000003, "liveness": 0.17840999999999993, "valence": 0.495797})
-   playList = "RapCaviar"
-   profile = Profile({"danceability": 0.783, "acousticness": 0.14025938, "energy": 0.59508, "liveness": 0.148354, "valence": 0.42312})
+#   playList = "RapCaviar"
+#   profile = Profile({"danceability": 0.783, "acousticness": 0.14025938, "energy": 0.59508, "liveness": 0.148354, "valence": 0.42312})
    
    return user
 
@@ -68,7 +68,7 @@ def suggest_songs(user, playlist, required_sim, sugg_limit, weight):
       
       if  sim >= required_sim:
          songs_matched += 1
-         print "   ", track_name, " ", sim
+         print "   ", track_name, "   ", sim
       
       if songs_matched >= sugg_limit:
          break
@@ -88,9 +88,9 @@ def spotify_dj():#playlist_name, top_features, weight):
       check = sp.search_playlist(playlist)
 
    print("Enter the feature's corresponding numbers to value (on a scale of 1-9) separated by commas: ")
-   print("For example, Dancability with the value 8 would be 5:8")
-   print("      (1) - Energy\n      (2) - Liveness\n      (3) - Tempo")
-   print("      (4) - Acousticness\n      (5) - Dancability\n      (6) - Valence")
+   print("  Ex. Dancability with the value 8 would be 5:8")
+   print("      (1) - Energy\n      (2) - Liveness")
+   print("      (3) - Acousticness\n      (4) - Dancability\n      (5) - Valence")
    features = raw_input('')
    features = features.replace(' ', '')
    chosen_features = features.split(",")
@@ -114,25 +114,20 @@ def spotify_dj():#playlist_name, top_features, weight):
 
    print(userPreferredFeat)
       
-#   user = build_playlist(playlist, top_features)
-#   print user
-
-'''
-   top_features = ["danceability", "acousticness", "energy", "liveness", "valence"]
-   weight = {"danceability":5, "acousticness":6, "energy":3, "liveness":7, "valence":7}
-   playlist_name = "Rap Caviar"
-   user = build_playlist(playlist_name, top_features)
+   user = build_playlist(playlist, userPreferredFeat)
    print user
 
-   playlists = build_sugg_playlists('data.csv', top_features)
+   top_features = ["danceability", "acousticness", "energy", "liveness", "valence"]
+
+
+   playlists = build_sugg_playlists('data.csv', list(userPreferredFeat.keys())) 
    
    for playlist in playlists:
-   similarity = Profile.compare(user, playlist, weight)
+       similarity = Profile.compare(user, playlist, userPreferredFeat)
    
-   if similarity > requiredSim:
-   print playlist.name, similarity
+       if similarity > requiredSim:
+          print playlist.name, similarity
    
-   suggest_songs(user, playlist, requiredSim, sugg_limit, weight)
-   '''
+          suggest_songs(user, playlist, requiredSim, sugg_limit, userPreferredFeat)
 if __name__ == '__main__':
    spotify_dj()

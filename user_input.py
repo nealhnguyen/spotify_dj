@@ -19,15 +19,17 @@ def UserInput():
    print("      (1) - Energy\n      (2) - Liveness")
    print("      (3) - Acousticness\n      (4) - Dancability\n      (5) - Valence")
    features = raw_input('')
-   features = features.replace(' ', '')
-   chosen_features = features.split(",")
+   tempFeatures = features.replace(' ', '')
+   chosen_features = tempFeatures.split(",")
 
-   features_dict = dict(map(lambda s : s.split(':'), chosen_features))
    userPreferredFeat = dict.fromkeys(['energy', 'liveness', 'acousticness', 'danceability', 'valence'], 5)
 
-   for key, value in features_dict.items():
-      featName = numToFeature[key]
-      userPreferredFeat[featName] = int(value)
+   if features:
+      features_dict = dict(map(lambda s : s.split(':'), chosen_features))
+
+      for key, value in features_dict.items():
+         featName = numToFeature[key]
+         userPreferredFeat[featName] = int(value)
 
    return user_playlist, userPreferredFeat
 
